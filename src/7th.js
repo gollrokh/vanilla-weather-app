@@ -1,5 +1,29 @@
 let apiKey="79fbf0fd751ad25907ac459fc1d6c647";
 let apiUrl=`https://api.openweathermap.org/data/2.5/weather?q=New York&appid=${apiKey}&units=metric`;
+function formateDate(timestamp) {
+    let date=new Date(timestamp);
+    let hours=date.getHours();
+    if (hours<10) {
+        hours=`0${hours}`;
+    }
+    let minutes=date.getMinutes();
+    if (minutes<10) {
+        minutes=`0${minutes}`;
+    }
+    let day=date.getDay();
+    let days = [
+        "Sunday",
+        "Monday",
+        "Tuesday",
+        "Wednesday",
+        "Thursday",
+        "Friday",
+        "Saturday"
+      ];
+    return `${days[day]} ${hours} : ${minutes}`;
+
+}
+
 function displayWeatherCondition(response) {
     console.log(response);
     let cityName=response.data.name;
@@ -12,6 +36,6 @@ function displayWeatherCondition(response) {
     document.querySelector("#humidity").innerHTML=` Humidity: ${humidity} % ` ;
     let wind=Math.round(response.data.wind.speed);
     document.querySelector("#wind").innerHTML=` Wind Speed: ${wind} Km/h `;
-
+    document.querySelector("#date").innerHTML=formateDate(response.data.dt *1000);
 }
 axios.get(apiUrl).then(displayWeatherCondition);
