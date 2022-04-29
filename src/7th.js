@@ -25,7 +25,6 @@ function formateDate(timestamp) {
 }
 
 function displayWeatherCondition(response) {
-    console.log(response);
     let cityName=response.data.name;
     document.querySelector("#city").innerHTML=`${cityName}`;
     let temp =Math.round(response.data.main.temp);
