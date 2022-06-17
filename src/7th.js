@@ -1,5 +1,6 @@
+let cityName="sydney";
 let apiKey="79fbf0fd751ad25907ac459fc1d6c647";
-let apiUrl=`https://api.openweathermap.org/data/2.5/weather?q=New York&appid=${apiKey}&units=metric`;
+let apiUrl=`https://api.openweathermap.org/data/2.5/weather?q=${cityName}&appid=${apiKey}&units=metric`;
 function formateDate(timestamp) {
     let date=new Date(timestamp);
     let hours=date.getHours();
@@ -36,5 +37,8 @@ function displayWeatherCondition(response) {
     let wind=Math.round(response.data.wind.speed);
     document.querySelector("#wind").innerHTML=` Wind Speed: ${wind} Km/h `;
     document.querySelector("#date").innerHTML=formateDate(response.data.dt *1000);
+    let iconElement=document.querySelector("#icon");
+    iconElement.setAttribute("src",`http://openweathermap.org/img/wn/${response.data.weather[0].icon}@2x.png`);
+    iconElement.setAttribute("alt",response.data.weather[0].description);
 }
 axios.get(apiUrl).then(displayWeatherCondition);
