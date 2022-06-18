@@ -36,6 +36,7 @@ function displayWeatherCondition(response) {
     document.querySelector("#wind").innerHTML=` Wind Speed: ${wind} Km/h `;
     document.querySelector("#date").innerHTML=formateDate(response.data.dt *1000);
     let iconElement=document.querySelector("#icon");
+    celsiusTemp=response.data.main.temp;
     iconElement.setAttribute("src",`http://openweathermap.org/img/wn/${response.data.weather[0].icon}@2x.png`);
     iconElement.setAttribute("alt",response.data.weather[0].description);
 }
@@ -48,8 +49,27 @@ function submitHolder(event) {
     event.preventDefault();
     let cityElement=document.querySelector("#city-input");
     searchCity(cityElement.value);
-    console.log(cityElement.value);
 }
-
+function showFahrenhite(event) {
+    event.preventDefault();
+    let temElement=document.querySelector("#temperature");
+    cLink.classList.remove("active");
+    fLink.classList.add("active");
+    let fTemp=(celsiusTemp *9 ) / 5 + 32;
+    temElement.innerHTML= Math.round(fTemp);
+}
+function showCel(event) {
+    event.preventDefault();
+    let celTemp=document.querySelector("#temperature");
+    fLink.classList.remove("active");
+    cLink.classList.add("active");
+    celTemp.innerHTML=Math.round(celsiusTemp);
+}
+let fLink=document.querySelector("#fahrenhite-link");
+fLink.addEventListener("click", showFahrenhite);
 let form=document.querySelector("#search-form");
 form.addEventListener("submit" , submitHolder);
+let celsiusTemp=null;
+let cLink=document.querySelector("#cel-link");
+cLink.addEventListener("click", showCel);
+searchCity("new york");
